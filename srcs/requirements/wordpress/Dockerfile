@@ -11,11 +11,12 @@ RUN 	apk update \
 # wordpress to /var/www/html
 RUN 	mkdir -p /var/www/html
 RUN 	wget https://wordpress.org/wordpress-6.4.tar.gz -P /var/www/html \
-&&	tar -xzf /var/www/html/wordpress-6.4.tar.gz \
+&&	tar -xzf /var/www/html/wordpress-6.4.tar.gz -C /var/www/html \
 &&	rm /var/www/html/wordpress-6.4.tar.gz
 
 # rights for www-data
-RUN 	chown -R www-data:www-data /var/www/* && chmod -R 755 /var/www/*
+RUN	adduser -S www-data -G www-data \
+&& 	chown -R www-data:www-data /var/www/* && chmod -R 755 /var/www/*
 
 # port
 EXPOSE 	9000/tcp

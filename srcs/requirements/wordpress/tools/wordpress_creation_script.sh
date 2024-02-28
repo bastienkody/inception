@@ -3,7 +3,7 @@
 cd /var/www/html/wordpress
 
 #only if wp not installed
-if [[ ! wp core is-installed ]]; then
+if ! wp core is-installed; then
 	#edit a wp-config.php
 	wp config create	--allow-root --dbname=${SQL_DATABASE} \
 				--dbuser=${SQL_USER} \
