@@ -23,4 +23,4 @@ RUN 	chmod 755 /var/www/html
 RUN 	adduser -S www-data -G www-data
 RUN 	chown -R www-data:www-data /var/www/html
 
-ENTRYPOINT [ "nginx", "-g", "daemon off" ]
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]

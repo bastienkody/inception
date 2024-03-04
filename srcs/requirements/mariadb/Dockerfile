@@ -17,5 +17,7 @@ COPY	./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 # db+user creation script
 COPY	/tools/mariadb_install_script.sh /etc/
 
-#RUN ./etc/mariadb_install_script.sh && rm -rf /etc/mariadb_install_script.sh
-ENTRYPOINT [ "./etc/mariadb_install_script.sh" ]
+RUN	./etc/mariadb_install_script.sh \
+&&	rm -rf /etc/mariadb_install_script.sh
+
+ENTRYPOINT [ "mysqld_safe" ]

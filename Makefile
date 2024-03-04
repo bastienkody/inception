@@ -1,11 +1,11 @@
 NAME=inception
 REPO_DB=/home/bguillau/data/mariadb
-REPO_WP=/home/yatang/data/wordpress
+REPO_WP=/home/bguillau/data/wordpress
 
 all:	${NAME}
 
 ${NAME}:	create_repos
-	cp ~/bguillau/.env ./
+	cp /home/bguillau/.env ./srcs/
 	docker compose -f ./srcs/docker-compose.yml build
 	docker compose -f ./srcs/docker-compose.yml up -d
 
@@ -20,7 +20,9 @@ fclean:	clean
 re:		fclean all
 
 create_repos:
-	[ ! -d ${REPO_DB} ] && mkdir -p ${REPO_DB}
-	[ ! -d ${REPO_WP} ] && mkdir -p ${REPO_WP}
+#	[ ! -d ${REPO_DB} ] &&
+	mkdir -p ${REPO_DB}
+#	[ ! -d ${REPO_WP} ] &&
+	mkdir -p ${REPO_WP}
 
 .PHONY: create_repos all clean fclean re
