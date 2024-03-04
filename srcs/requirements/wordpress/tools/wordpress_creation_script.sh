@@ -5,9 +5,9 @@ cd /var/www/html/wordpress
 #only if wp not installed
 if ! wp core is-installed; then
 	#edit a wp-config.php
-	wp config create	--allow-root --dbname=${SQL_DATABASE} \
-				--dbuser=${SQL_USER} \
-				--dbpass=${SQL_PASSWORD} \
+	wp config create	--allow-root --dbname=${SQL_DB_NAME} \
+				--dbuser=${SQL_USER_NAME} \
+				--dbpass=${SQL_USER_PASSWORD} \
 				--dbhost=${SQL_HOST} \
 				--url=https://${DOMAIN_NAME};
 	#proper wp instalaltion
@@ -19,9 +19,9 @@ if ! wp core is-installed; then
 				--admin_email=${ADMIN_EMAIL};
 	#user of wp that can edit blogs
 	wp user create		--allow-root \
-				${USER1_LOGIN} ${USER1_MAIL} \
+				${USER_LOGIN} ${USER_MAIL} \
 				--role=author \
-				--user_pass=${USER1_PASS} ;
+				--user_pass=${USER_PASSWORD};
 	#on vide le cache
 	wp cache flush --allow-root
 	# set to english --> mostprob not needed

@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+  #mariadb
   mariadb:
     image: mariadb
     container_name: mariadb
@@ -17,7 +18,7 @@ services:
     env_file:
       - path: .env
         required: true
-
+  #wordpress
   wordpress:
     image: wordpress
     container_name: wordpress
@@ -36,13 +37,13 @@ services:
     env_file:
       - path: .env
         required: true
-
+  #nginx
   nginx:
     image: nginx
     container_name: nginx
     build:
       context: ./requirements/nginx
-      dockerfile: Dockerfile	
+      dockerfile: Dockerfile
     depends_on:
       - wordpress
     restart: unless-stopped
