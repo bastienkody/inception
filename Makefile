@@ -5,6 +5,7 @@ REPO_WP=/home/yatang/data/wordpress
 all:	${NAME}
 
 ${NAME}:	create_repos
+	cp ~/bguillau/.env ./
 	docker compose -f ./srcs/docker-compose.yml build
 	docker compose -f ./srcs/docker-compose.yml up -d
 
