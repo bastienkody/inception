@@ -2,6 +2,8 @@ NAME=inception
 REPO_DB=/home/bguillau/data/mariadb
 REPO_WP=/home/bguillau/data/wordpress
 
+ERROR=/lib/rc/sh/openrc-run.sh: line 108: can't create /sys/fs/cgroup/perf_event/tasks:
+
 all:	${NAME}
 
 ${NAME}:	create_repos
