@@ -1,5 +1,17 @@
+
+# create the repo for socket
+if [ ! -d "/run/mysqld" ]; then
+	mkdir -p /run/mysqld
+	chown -R mysql:mysql /run/mysqld
+fi
+
+# add to boot apps + starts service
+rc-update add mariadb
 rc-service mariadb setup
-rc-service mariadb start
+#rc-service mariadb start
+
+echo about to sleep for 5 sec
+sleep 5
 
 SQL_DB_NAME=db
 SQL_USER_NAME=yo
