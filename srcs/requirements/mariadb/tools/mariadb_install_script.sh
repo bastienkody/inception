@@ -1,17 +1,17 @@
-
 # create the repo for socket
 if [ ! -d "/run/mysqld" ]; then
 	mkdir -p /run/mysqld
 	chown -R mysql:mysql /run/mysqld
 fi
 
-# add to boot apps + starts service
-rc-update add mariadb
-rc-service mariadb setup
-#rc-service mariadb start
+# add to boot (not needed for this project I guess)
+#rc-update add mariadb
 
-echo about to sleep for 5 sec
-sleep 5
+# set up mariadb ; seems like it creates db and 2 users
+#rc-service mariadb setup
+
+# we call this as entrypoint in dockerfile; it calls mysqld_safe
+#rc-service mariadb restart
 
 SQL_DB_NAME=db
 SQL_USER_NAME=yo
