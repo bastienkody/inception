@@ -24,7 +24,7 @@ COPY	./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 COPY	/tools/mariadb_install_script.sh /etc/
 COPY	/tools/init.sql /tmp/
 
-RUN		./etc/mariadb_install_script.sh
+RUN		./etc/mariadb_install_script.sh \
 &&		rm -rf /etc/mariadb_install_script.sh /tmp/init.sql
 
 # can't use rc-service cause it directly exits and the container stops
