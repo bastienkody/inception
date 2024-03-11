@@ -9,15 +9,18 @@ RUN 	apk update \
 			php82-fpm \
 			php82-phar \
 			php82-mysqlnd \
+			php82-mysqli \
 			mysql-client
 
-RUN	ln -s /usr/bin/php82 /usr/bin/php
+RUN	ln -s /usr/bin/php82 /usr/bin/php \
+&&	ln -s /usr/bin/php-fpm82 /usr/bin/php-fpm
 
 # wordpress to /var/www/html
 RUN 	mkdir -p /var/www/html
-RUN 	wget https://wordpress.org/wordpress-6.4.tar.gz -P /var/www/html \
-&&	tar -xzf /var/www/html/wordpress-6.4.tar.gz -C /var/www/html \
-&&	rm /var/www/html/wordpress-6.4.tar.gz
+# atually not needed bc of wp core download ?
+#RUN 	wget https://wordpress.org/wordpress-6.4.tar.gz -P /var/www/html \
+#&&	tar -xzf /var/www/html/wordpress-6.4.tar.gz -C /var/www/html \
+#&&	rm /var/www/html/wordpress-6.4.tar.gz
 
 # rights for www-data
 RUN	adduser -S www-data -G www-data \
@@ -40,4 +43,4 @@ RUN 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.p
 COPY 	./tools/wordpress_creation_script.sh ./ 
 RUN 	chmod +x ./wordpress_creation_script.sh 
 
-#ENTRYPOINT [ "./wordpress_creation_script.sh" ]
+ENTRYPOINT [ "./wordpress_creation_script.sh" ]
