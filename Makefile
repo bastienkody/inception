@@ -10,9 +10,8 @@ ${NAME}:	create_repos
 	docker compose -f ./srcs/docker-compose.yml up -d
 
 clean:
+	docker container stop nginx mariadb wordpress
 	docker compose -f ./srcs/docker-compose.yml down
-	#docker container stop nginx mariadb wordpress
-	#docker network rm inception
 
 fclean:	clean
 	sudo rm -rf ${REPO_DB} ${REPO_WP}

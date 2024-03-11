@@ -7,6 +7,7 @@ RUN 	apk update \
 && 	apk add --no-cache wget \
 			php82 \
 			php82-fpm \
+			php82-phar \
 			php82-mysqlnd \
 			mysql-client
 
@@ -39,4 +40,4 @@ RUN 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.p
 COPY 	./tools/wordpress_creation_script.sh ./ 
 RUN 	chmod +x ./wordpress_creation_script.sh 
 
-ENTRYPOINT [ "./wordpress_creation_script.sh" ]
+#ENTRYPOINT [ "./wordpress_creation_script.sh" ]
