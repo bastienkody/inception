@@ -10,6 +10,8 @@ RUN 	apk update \
 			php82-mysqlnd \
 			mysql-client
 
+RUN	alias php=/usr/bin/php82
+
 # wordpress to /var/www/html
 RUN 	mkdir -p /var/www/html
 RUN 	wget https://wordpress.org/wordpress-6.4.tar.gz -P /var/www/html \
@@ -22,6 +24,8 @@ RUN	adduser -S www-data -G www-data \
 
 # port
 EXPOSE 	9000/tcp
+
+WORKDIR	/var/www/html
 
 # php conf (will be included by main conf file /etc/php82/php-fpm.conf)
 COPY 	./conf/www.conf /etc/php82/php-fpm.d/www.conf

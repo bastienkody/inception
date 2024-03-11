@@ -34,5 +34,7 @@ fi
 #create a reboot persistent repo to save sockets files needed for phpfpm to communicate
 [[ ! -d /run/php ]] && mkdir /run/php
 
+alias php=/usr/bin/php82
+
 # start the PHP-FPM, in foreground
 /usr/sbin/php-fpm82 -F -R
