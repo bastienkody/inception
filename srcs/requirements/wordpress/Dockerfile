@@ -10,7 +10,7 @@ RUN 	apk update \
 			php82-mysqlnd \
 			mysql-client
 
-RUN	alias php=/usr/bin/php82
+RUN	ln -s /usr/bin/php82 /usr/bin/php
 
 # wordpress to /var/www/html
 RUN 	mkdir -p /var/www/html
