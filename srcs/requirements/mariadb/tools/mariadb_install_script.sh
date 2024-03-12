@@ -6,14 +6,14 @@ if [ ! -d "/run/mysqld" ]; then
 	chown -R mysql:mysql /run/mysqld
 fi
 
+chown -R mysql:mysql /var/lib/mysql
+
 # checks if already installed
 if [ ! -d "/var/lib/mysql/mysql" ]; then
-	
-	chown -R mysql:mysql /var/lib/mysql
 
-	# init database
+	# init database -> use of rc-service mariadb setup
 	mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
 
-	# run init.sql (it suppress ''user and 'test' db)
+	# run init.sql (it suppress ''user and 'test' db) -> better use of mysql -e
 	/usr/bin/mysqld --user=mysql --bootstrap < /tmp/init.sql
 fi
