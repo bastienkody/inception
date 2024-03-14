@@ -10,10 +10,9 @@ chown -R mysql:mysql /var/lib/mysql
 
 # checks if already installed
 if [ ! -d "/var/lib/mysql/mysql" ]; then
-
-	# init database -> use of rc-service mariadb setup
-	mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
-
-	# run init.sql (it suppress ''user and 'test' db) -> better use of mysql -e
-	/usr/bin/mysqld --user=mysql --bootstrap < /tmp/init.sql
+	mysql -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DB_NAME}\`;"
+	mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER_NAME}\`@'localhost' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
+	mysql -e "GRANT ALL PRIVILEGES ON \`${SQL_DB_NAME}\`.* TO \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
+	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
+	mysql -e "FLUSH PRIVILEGES;"
 fi
