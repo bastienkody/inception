@@ -25,9 +25,7 @@ COPY	./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 COPY	/tools/mariadb_install_script.sh /etc/
 
 # mariadb : setup + start + install + stops
-RUN		./etc/mariadb_install_script.sh \
-		rm -rf /etc/mariadb_install_script.sh \
-		sleep 2 \
+ENTRYPOINT	[ "./etc/mariadb_install_script.sh" ]
 
 # on change de method (on peut rapatrier beaucoup dans le dockerfile) : 
 # make repo et give ownership + rights to mysql:mysql
@@ -38,4 +36,4 @@ RUN		./etc/mariadb_install_script.sh \
 
 # can't use rc-service cause it directly exits and the container stops
 #ENTRYPOINT		[ "rc-service", "mariadb", "restart" ]
-ENTRYPOINT		[ "mysqld", "--user=mysql" ]
+#ENTRYPOINT		[ "mysqld", "--user=mysql" ]

@@ -12,6 +12,7 @@ chown -R mysql:mysql /var/lib/mysql
 # setup
 rc-service mariadb setup
 rc-service mariadb start
+sleep 1
 
 # db + user param
 if [ ! -d "/var/lib/mysql/mysql" ]; then
@@ -24,3 +25,7 @@ fi
 
 # stops for launching form dockerfile entrypoint
 rc-service mariadb stop
+sleep 2
+
+# launch daemon
+mysqld --user=mysql
