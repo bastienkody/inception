@@ -25,12 +25,9 @@ COPY	./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 COPY	/tools/mariadb_install_script.sh /etc/
 
 # mariadb : setup + start + install + stops
-RUN		rc-service mariadb setup \
-&&		rc-service mariadb start \
-&&		./etc/mariadb_install_script.sh \
-&&		rm -rf /etc/mariadb_install_script.sh \
-&&		sleep 2 \
-&&		rc-service mariadb stop 
+RUN		./etc/mariadb_install_script.sh \
+		rm -rf /etc/mariadb_install_script.sh \
+		sleep 2 \
 
 # on change de method (on peut rapatrier beaucoup dans le dockerfile) : 
 # make repo et give ownership + rights to mysql:mysql
