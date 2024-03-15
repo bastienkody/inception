@@ -6,7 +6,7 @@ cd /var/www/html/wordpress
 sleep 10
 
 #only if wp not configured
-if [ ! -f "/var/www/html/index.html" ]; then
+if [ ! -f "/var/www/html/index.php" ]; then
 	# dl wordpress 6.4
 	wp core download --allow-root
 	#edit a wp-config.php
@@ -37,6 +37,10 @@ fi
 
 #create a reboot persistent repo to save sockets files needed for phpfpm to communicate
 [[ ! -d /run/php ]] && mkdir /run/php
+
+# needed now bc does not exist in dockefile
+chown -R www-data:www-data /var/www/html/wordpress
+
 
 # start the PHP-FPM, in foreground
 /usr/sbin/php-fpm82 -F -R
