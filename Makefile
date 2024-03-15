@@ -13,9 +13,11 @@ clean:
 	docker container stop nginx mariadb wordpress
 	docker compose -f ./srcs/docker-compose.yml down
 
-fclean:	clean
+clear:
 	sudo rm -rf ${REPO_DB} ${REPO_WP}
 	docker system prune -af
+
+fclean:		clean clear
 
 re:		fclean all
 
