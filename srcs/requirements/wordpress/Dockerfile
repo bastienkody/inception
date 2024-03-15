@@ -11,6 +11,7 @@ RUN 	apk update \
 			php82-mysqlnd \
 			php82-mysqli \
 			php82-iconv \
+			php82-json \
 			mysql-client
 
 RUN	ln -s /usr/bin/php82 /usr/bin/php \
