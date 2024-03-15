@@ -15,7 +15,7 @@ if [ ! -f "/var/www/html/index.html" ]; then
 				--dbuser=${SQL_USER_NAME} \
 				--dbpass=${SQL_USER_PASSWORD} \
 				--dbhost=${SQL_HOST} \
-				--path='/var/www/wordpress'
+				--path='/var/www/html/wordpress'
 	#proper wp instalaltion
 	wp core install --allow-root \
 				--title=${SITE_TITLE} \
