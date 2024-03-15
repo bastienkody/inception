@@ -15,10 +15,11 @@ if [ ! -f "/var/www/html/index.html" ]; then
 				--dbuser=${SQL_USER_NAME} \
 				--dbpass=${SQL_USER_PASSWORD} \
 				--dbhost=${SQL_HOST} \
-				--path='/var/www/html/wordpress'
+				--url=${DOMAIN_NAME}
 	#proper wp instalaltion
 	wp core install --allow-root \
 				--title=${SITE_TITLE} \
+				--url=${DOMAIN_NAME} \
 				--admin_user=${ADMIN_USER} \
 				--admin_password=${ADMIN_PASSWORD} \
 				--admin_email=${ADMIN_EMAIL}

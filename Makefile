@@ -16,6 +16,7 @@ clean:
 clear:
 	sudo rm -rf ${REPO_DB} ${REPO_WP}
 	docker system prune -af
+	docker volume prune -af
 
 fclean:		clean clear
 
