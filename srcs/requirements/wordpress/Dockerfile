@@ -10,6 +10,7 @@ RUN 	apk update \
 			php82-phar \
 			php82-mysqlnd \
 			php82-mysqli \
+			php82-iconv \
 			mysql-client
 
 RUN	ln -s /usr/bin/php82 /usr/bin/php \
@@ -33,6 +34,7 @@ WORKDIR	/var/www/html
 
 # php conf (will be included by main conf file /etc/php82/php-fpm.conf)
 COPY 	./conf/www.conf /etc/php82/php-fpm.d/www.conf
+COPY 	./conf/php-fpm.conf /etc/php82/php-fpm.conf
 
 # wp-cli for the wp creat/installation script
 RUN 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
