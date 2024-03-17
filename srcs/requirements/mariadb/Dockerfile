@@ -3,10 +3,10 @@ FROM 	alpine:3.18.6
 LABEL	org.opencontainers.image.authors="bguillau@student.42.fr"
 
 RUN 	apk update \
-&& 		apk upgrade \
-&& 		apk add --no-cache openrc \
-			mariadb \
-			mariadb-client
+&&	apk upgrade \
+&&	apk add --no-cache openrc \
+		mariadb \
+		mariadb-client
 
 # needed for open-rc settings
 VOLUME	[ "/sys/fs/cgroup" ]
