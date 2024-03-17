@@ -9,33 +9,37 @@ fi
 # rights
 chown -R mysql:mysql /var/lib/mysql
 
-# setup
-rc-service mariadb setup
-rc-service mariadb start
+# setup witouht rc-service --> pb de socket pour les mysql -e. Essayer avec la methode alpine EOF ?
+mysql_install_db --user=mysql
+
+# setup via rc-service --> seems like its another mariadb (!= from mysqld_safe), and lauching rc-service mariadb start -> not daemonized, docker directly quits
+#rc-service mariadb setup
+#rc-service mariadb start
 sleep 1
 
 # db + user param
 #if [ ! -d "/var/lib/mysql/mysql" ]; then
-	echo "inside if statement mariadb" > /etc/log_maria
-	echo "create db" >> /etc/log_maria 2>&1
-	mysql -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DB_NAME}\`;" >> /etc/log_maria 2>&1
+	echo "inside if statement mariadb"
+	echo "create db"
+	mysql -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DB_NAME}\`;"
 #	mysql -e "DROP USER ‘mysql’@’localhost’;" &> /etc/log_maria
-	echo "create user" >> /etc/log_maria 2>&1
-	mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';" >> /etc/log_maria 2>&1
-	mysql -e "GRANT ALL PRIVILEGES ON \`${SQL_DB_NAME}\`.* TO \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';" >> /etc/log_maria 2>&1
-	echo "alter root" >> /etc/log_maria 2>&1
-	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';" >> /etc/log_maria 2>&1
-	echo "flush" >> /etc/log_maria 2>&1
-	mysql -u root --password=${SQL_ROOT_PASSWORD} -e "FLUSH PRIVILEGES;" >> /etc/log_maria 2>&1
+	echo "create user"
+#	mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';" >> /etc/log_maria 2>&1
+	mysql -e "ALTER USER 'mysql'@'localhost' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
+	mysql -e "UPDATE mysql.user SET Host='%' WHERE Host='localhost' AND User='${SQL_USER_NAME}';"
+	mysql -e "UPDATE mysql.db SET Host='%' WHERE Host='localhost' AND User='${SQL_USER_NAME}';"
+	mysql -e "GRANT ALL PRIVILEGES ON \`${SQL_DB_NAME}\`.* TO \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
+	echo "alter root"
+	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
+	echo "flush"
+	mysql -u root --password=${SQL_ROOT_PASSWORD} -e "FLUSH PRIVILEGES;"
 #fi
 
-# stops for launching form dockerfile entrypoint
-
-echo "rc-service stop" >> /etc/log_maria 2>&1
-rc-service mariadb stop
+#echo "rc-service stop" >> /etc/log_maria 2>&1
+#rc-service mariadb stop
 sleep 2
 
 # launch daemon
 echo "mysqld -- user" >> /etc/log_maria 2>&1
-mysqld --user=mysql
-# or try with /usr/bin/mariadb-safe --datadir='/var/lib/mysql
+mysqld_safe --user=mysql
+# unknown mdrrrr : /usr/bin/mariadb-safe --datadir='/var/lib/mysql'
