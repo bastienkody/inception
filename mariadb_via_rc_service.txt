@@ -1,0 +1,79 @@
+kody:~/code/inception/srcs/requirements/mariadb$ docker run -it mariadb
+/ # rc-service mariadb status
+ * status: stopped
+/ # rc-service mariadb setup
+ * Creating a new MySQL database ...
+Installing MariaDB/MySQL system tables in '/var/lib/mysql' ...
+OK
+
+To start mariadbd at boot time you have to copy
+support-files/mariadb.service to the right place for your system
+
+
+Two all-privilege accounts were created.
+One is root@localhost, it has no password, but you need to
+be system 'root' user to connect. Use, for example, sudo mysql
+The second is mysql@localhost, it has no password either, but
+you need to be the system 'mysql' user to connect.
+After connecting you can set the password, if you would need to be
+able to connect as any of these users with a password and without sudo
+
+See the MariaDB Knowledgebase at https://mariadb.com/kb
+
+You can start the MariaDB daemon with:
+cd '/usr' ; /usr/bin/mariadb-safe --datadir='/var/lib/mysql'
+
+You can test the MariaDB daemon with mysql-test-run.pl
+cd '/usr/mysql-test' ; perl mariadb-test-run.pl
+
+Please report any problems at https://mariadb.org/jira
+
+The latest information about MariaDB is available at https://mariadb.org/.
+
+Consider joining MariaDB's strong and vibrant community:
+https://mariadb.org/get-involved/
+                                                                                        [ ok ]
+/ # rc-update add mariadb default
+ * service mariadb added to runlevel default
+/ # rc-service mariadb status
+ * status: stopped
+/ # rc-service mariadb start
+ * Checking local filesystems  ...                                                      [ ok ]
+ * Remounting filesystems ...                                                           [ ok ]
+ * Mounting local filesystems ...                                                       [ ok ]
+ * Starting mariadb ...
+240319 16:01:01 mysqld_safe Logging to syslog.
+240319 16:01:01 mysqld_safe Starting mariadbd daemon with databases from /var/lib/mysql [ ok ]
+/ # mysql -e "CREATE DATABASE IF NOT EXISTS db;"
+/ # mysql -e "DROP USER ‘mysql’@’localhost’;"
+ERROR 1396 (HY000) at line 1: Operation DROP USER failed for '‘mysql’'@'’localhost’'
+/ # mysql -e "DROP USER mysql@localhost;"
+/ # mysql -e "DROP USER mysql@localhost;"
+ERROR 1396 (HY000) at line 1: Operation DROP USER failed for 'mysql'@'localhost'
+/ # mysql -e "CREATE USER IF NOT EXISTS mysql@% IDENTIFIED BY mysql;"
+ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '% IDENTIFIED BY mysql' at line 1
+/ # mysql -e "CREATE USER IF NOT EXISTS mysql@'%' IDENTIFIED BY mysql;"
+ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'mysql' at line 1
+/ # mysql -e "CREATE USER IF NOT EXISTS 'mysql'@'%' IDENTIFIED BY mysql;"
+ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'mysql' at line 1
+/ # mysql -e "CREATE USER IF NOT EXISTS 'mysql'@'%' IDENTIFIED BY 'mysql';"
+/ # mysql  -e "UPDATE mysql.db SET Host='%' WHERE Host='localhost' AND User='mysql';"
+/ # mysql  -e "GRANT ALL PRIVILEGES ON 'db'.* TO 'mysql'@'%' IDENTIFIED BY 'mysql';"
+ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''db'.* TO 'mysql'@'%' IDENTIFIED BY 'mysql'' at line 1
+/ # mysql  -e "GRANT ALL PRIVILEGES ON db.* TO 'mysql'@'%' IDENTIFIED BY 'mysql';"
+/ # mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';"
+/ # mysql -u root --password=root -e "FLUSH PRIVILEGES;"
+/ # rc-service mariadb restart
+ * Stopping mariadb ...                                                                 [ ok ]
+ * Starting mariadb ...
+240319 16:05:10 mysqld_safe Logging to syslog.
+240319 16:05:10 mysqld_safe Starting mariadbd daemon with databases from /var/lib/mysql [ ok ]
+/ # rc-service mariadb status
+ * status: started
+/ # ps -a | grep my
+  490 mysql     0:00 /usr/bin/mariadbd --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/mariadb/plugin --user=mysql --pid-file=/run/mysqld/mariadb.pid --socket=/run/mysqld/mysqld.sock --port=3306
+  491 root      0:00 logger -t mysqld -p daemon.error
+  532 root      0:00 grep my
+/ # ps -a | grep mar
+  490 mysql     0:00 /usr/bin/mariadbd --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/mariadb/plugin --user=mysql --pid-file=/run/mysqld/mariadb.pid --socket=/run/mysqld/mysqld.sock --port=3306
+
