@@ -77,3 +77,7 @@ ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the ma
 / # ps -a | grep mar
   490 mysql     0:00 /usr/bin/mariadbd --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/mariadb/plugin --user=mysql --pid-file=/run/mysqld/mariadb.pid --socket=/run/mysqld/mysqld.sock --port=3306
 
+
+--> NON, meme avec un sleep 500 dans le dockerfile, et en utilisant rc-service, 
+il y a un pb mariadb : on accede a la page d'accueil de mariadb mais impossible de 
+debrancher sur la page hello_world.
