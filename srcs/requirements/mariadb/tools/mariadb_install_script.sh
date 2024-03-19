@@ -27,14 +27,14 @@ sleep 1
 #if [ ! -d "/var/lib/mysql/mysql" ]; then
 	echo "inside if statement mariadb"
 	echo "create db"
-	mysql -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DB_NAME}\`;"
-	mysql -e "DROP USER ‘mysql’@’localhost’;"
+	mysql -e "CREATE DATABASE IF NOT EXISTS ${SQL_DB_NAME};"
+	mysql -e "DROP USER 'mysql'@'localhost';"
 	echo "create user"
-	mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
+	mysql -e "CREATE USER IF NOT EXISTS '${SQL_USER_NAME}'@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
 #	mysql  -e "ALTER USER 'mysql'@'localhost' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
 #	mysql  -e "UPDATE mysql.user SET Host='%' WHERE Host='localhost' AND User='${SQL_USER_NAME}';"
 	mysql  -e "UPDATE mysql.db SET Host='%' WHERE Host='localhost' AND User='${SQL_USER_NAME}';"
-	mysql  -e "GRANT ALL PRIVILEGES ON \`${SQL_DB_NAME}\`.* TO \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
+	mysql  -e "GRANT ALL PRIVILEGES ON ${SQL_DB_NAME}.* TO '${SQL_USER_NAME}'@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
 	echo "alter root"
 	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
 	echo "flush"
@@ -49,3 +49,5 @@ sleep 2
 rc-service mariadb restart
 #mysqld_safe --user=mysql
 # unknown mdrrrr : /usr/bin/mariadb-safe --datadir='/var/lib/mysql'
+ 
+sleep 500
