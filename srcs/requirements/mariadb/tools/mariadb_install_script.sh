@@ -10,11 +10,17 @@ fi
 chown -R mysql:mysql /var/lib/mysql
 
 # setup witouht rc-service --> pb de socket pour les mysql -e. Essayer avec la methode alpine EOF ?
-mysql_install_db --user=mysql
+#mysql_install_db --user=mysql
 
 # setup via rc-service --> seems like its another mariadb (!= from mysqld_safe), and lauching rc-service mariadb start -> not daemonized, docker directly quits
-#rc-service mariadb setup
-#rc-service mariadb start
+# seems like rc-update add mariadb default -> shjould daemonize? after restart
+
+# init db and user
+rc-service mariadb setup
+# add mariadb daemon
+rc-update add mariadb default
+# launch it
+rc-service mariadb start
 sleep 1
 
 # db + user param
@@ -22,13 +28,13 @@ sleep 1
 	echo "inside if statement mariadb"
 	echo "create db"
 	mysql -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DB_NAME}\`;"
-#	mysql -e "DROP USER ‘mysql’@’localhost’;" &> /etc/log_maria
+	mysql -e "DROP USER ‘mysql’@’localhost’;"
 	echo "create user"
-#	mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';" >> /etc/log_maria 2>&1
-	mysql -e "ALTER USER 'mysql'@'localhost' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
-	mysql -e "UPDATE mysql.user SET Host='%' WHERE Host='localhost' AND User='${SQL_USER_NAME}';"
-	mysql -e "UPDATE mysql.db SET Host='%' WHERE Host='localhost' AND User='${SQL_USER_NAME}';"
-	mysql -e "GRANT ALL PRIVILEGES ON \`${SQL_DB_NAME}\`.* TO \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
+	mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
+#	mysql  -e "ALTER USER 'mysql'@'localhost' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
+#	mysql  -e "UPDATE mysql.user SET Host='%' WHERE Host='localhost' AND User='${SQL_USER_NAME}';"
+	mysql  -e "UPDATE mysql.db SET Host='%' WHERE Host='localhost' AND User='${SQL_USER_NAME}';"
+	mysql  -e "GRANT ALL PRIVILEGES ON \`${SQL_DB_NAME}\`.* TO \`${SQL_USER_NAME}\`@'%' IDENTIFIED BY '${SQL_USER_PASSWORD}';"
 	echo "alter root"
 	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
 	echo "flush"
@@ -40,6 +46,6 @@ sleep 1
 sleep 2
 
 # launch daemon
-echo "mysqld -- user" >> /etc/log_maria 2>&1
-mysqld_safe --user=mysql
+rc-service mariadb restart
+#mysqld_safe --user=mysql
 # unknown mdrrrr : /usr/bin/mariadb-safe --datadir='/var/lib/mysql'
