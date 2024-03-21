@@ -24,7 +24,7 @@ rc-service mariadb start
 sleep 1
 
 # db + user param
-#if [ ! -d "/var/lib/mysql/mysql" ]; then
+if [ ! -d "/var/lib/mysql/mysql" ]; then
 	echo "inside if statement mariadb"
 	echo "create db"
 	mysql -e "CREATE DATABASE IF NOT EXISTS ${SQL_DB_NAME};"
@@ -39,7 +39,7 @@ sleep 1
 	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
 	echo "flush"
 	mysql -u root --password=${SQL_ROOT_PASSWORD} -e "FLUSH PRIVILEGES;"
-#fi
+fi
 
 #echo "rc-service stop" >> /etc/log_maria 2>&1
 #rc-service mariadb stop
@@ -49,5 +49,3 @@ sleep 2
 #rc-service mariadb restart
 mysqld_safe --user=mysql
 # unknown mdrrrr : /usr/bin/mariadb-safe --datadir='/var/lib/mysql'
- 
-sleep 500
