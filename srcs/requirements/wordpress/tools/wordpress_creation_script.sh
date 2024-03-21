@@ -31,7 +31,7 @@ if [ ! -f "/var/www/html/index.php" ]; then
 	#on vide le cache
 	wp cache flush --allow-root
 	# set the permalink structure (links with nice titles)
-	wp rewrite structure '/%postname%/'
+	#wp rewrite structure '/%postname%/'
 
 fi
 
