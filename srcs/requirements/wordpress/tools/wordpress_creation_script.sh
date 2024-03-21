@@ -7,8 +7,8 @@ sleep 2
 
 #	only if wp not configured
 if [ ! -f "/var/www/html/wordpress/wp-config.php" ]; then
-	#	dl wordpress 6.4
-	wp core download --allow-root
+	#	dl wordpress 6.4.3
+	wp core download --allow-root --version=6.4.3
 	#	edit a wp-config.php
 	wp config create --allow-root \
 				--dbname=${SQL_DB_NAME} \
@@ -23,7 +23,7 @@ if [ ! -f "/var/www/html/wordpress/wp-config.php" ]; then
 				--admin_user=${ADMIN_USER} \
 				--admin_password=${ADMIN_PASSWORD} \
 				--admin_email=${ADMIN_EMAIL}
-	#	user of wp that can edit blogs
+	#	user of wp that can edit posts
 	wp user create --allow-root \
 				${USER_LOGIN} ${USER_MAIL} \
 				--role=author \
@@ -34,7 +34,7 @@ if [ ! -f "/var/www/html/wordpress/wp-config.php" ]; then
 
 fi
 
-#	on vide le cache (dans tous les cas)
+#	on vide le cache (dans tous les cas, good practice)
 wp cache flush --allow-root
 
 #	create a reboot persistent repo to save sockets files needed for phpfpm to communicate

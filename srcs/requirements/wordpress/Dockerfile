@@ -27,9 +27,6 @@ RUN		adduser -S www-data -G www-data \
 #	port
 EXPOSE 	9000/tcp
 
-#	surement pas indispensable
-#WORKDIR	/var/www/html
-
 #	php conf (will be included by main conf file /etc/php82/php-fpm.conf)
 COPY 	./conf/www.conf /etc/php82/php-fpm.d/www.conf
 COPY 	./conf/php-fpm.conf /etc/php82/php-fpm.conf
