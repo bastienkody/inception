@@ -6,7 +6,7 @@ cd /var/www/html/wordpress
 sleep 10
 
 #only if wp not configured
-if [ ! -f "/var/www/html/index.php" ]; then
+if [ ! -f "/var/www/html/wordpress/wp-config.php" ]; then
 	# dl wordpress 6.4
 	wp core download --allow-root
 	#edit a wp-config.php
@@ -30,8 +30,8 @@ if [ ! -f "/var/www/html/index.php" ]; then
 				--user_pass=${USER_PASSWORD}
 	#on vide le cache
 	wp cache flush --allow-root
-	# set the permalink structure (links with nice titles)
-	#wp rewrite structure '/%postname%/'
+	# set the permalink structure (links with nice titles) -> tant pis !
+	#wp rewrite structure '/%postname%/' --allow-root
 
 fi
 

@@ -46,8 +46,8 @@ sleep 1
 sleep 2
 
 # launch daemon
-rc-service mariadb restart
-#mysqld_safe --user=mysql
+#rc-service mariadb restart
+mysqld_safe --user=mysql
 # unknown mdrrrr : /usr/bin/mariadb-safe --datadir='/var/lib/mysql'
  
 sleep 500
