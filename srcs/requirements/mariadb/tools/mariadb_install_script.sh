@@ -9,22 +9,17 @@ fi
 # rights
 chown -R mysql:mysql /var/lib/mysql
 
-# setup witouht rc-service --> pb de socket pour les mysql -e. Essayer avec la methode alpine EOF ?
-#mysql_install_db --user=mysql
-
-# setup via rc-service --> seems like its another mariadb (!= from mysqld_safe), and lauching rc-service mariadb start -> not daemonized, docker directly quits
-# seems like rc-update add mariadb default -> shjould daemonize? after restart
-
 # init db and user
 rc-service mariadb setup
+
 # add mariadb daemon
 rc-update add mariadb default
+
 # launch it
 rc-service mariadb start
-sleep 1
 
 # db + user param
-if [ ! -d "/var/lib/mysql/mysql" ]; then
+#if [ ! -d "/var/lib/mysql/mysql" ]; then
 	echo "inside if statement mariadb"
 	echo "create db"
 	mysql -e "CREATE DATABASE IF NOT EXISTS ${SQL_DB_NAME};"
@@ -39,13 +34,10 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
 	echo "flush"
 	mysql -u root --password=${SQL_ROOT_PASSWORD} -e "FLUSH PRIVILEGES;"
-fi
+#fi
 
-#echo "rc-service stop" >> /etc/log_maria 2>&1
-#rc-service mariadb stop
 sleep 2
 
 # launch daemon
-#rc-service mariadb restart
+#rc-service mariadb restart --> it seems to daemonize but the commands exits and so the docker. With mysqld it does not exits. 
 mysqld_safe --user=mysql
-# unknown mdrrrr : /usr/bin/mariadb-safe --datadir='/var/lib/mysql'
