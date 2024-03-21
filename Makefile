@@ -23,9 +23,7 @@ fclean:		clean clear
 re:		fclean all
 
 create_repos:
-#	[ ! -d ${REPO_DB} ] &&
 	mkdir -p ${REPO_DB}
-#	[ ! -d ${REPO_WP} ] &&
 	mkdir -p ${REPO_WP}
 
 .PHONY: create_repos all clean fclean re

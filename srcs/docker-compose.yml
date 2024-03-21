@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-  #mariadb
   mariadb:
     image: mariadb
     container_name: mariadb
@@ -16,7 +15,7 @@ services:
       - inception
     restart: unless-stopped
     env_file: .env
-  #wordpress
+
   wordpress:
     image: wordpress
     container_name: wordpress
@@ -33,7 +32,7 @@ services:
     networks:
       - inception
     env_file: .env
-  #nginx
+
   nginx:
     image: nginx
     container_name: nginx

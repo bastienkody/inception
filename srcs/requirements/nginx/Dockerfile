@@ -17,10 +17,10 @@ RUN 	openssl req -x509 -noenc -days 300 \
 RUN 	mkdir -p /var/run/nginx
 COPY 	conf/nginx.conf /etc/nginx/nginx.conf
 
-#	rigths
-RUN 	mkdir -p /var/www/html
-RUN 	chmod 755 /var/www/html
-RUN 	adduser -S www-data -G www-data
-RUN 	chown -R www-data:www-data /var/www/html
+#	rigths (if not working multiple needed)
+RUN 	mkdir -p /var/www/html; \
+		chmod 755 /var/www/html; \
+		adduser -S www-data -G www-data; \
+		chown -R www-data:www-data /var/www/html
 
 ENTRYPOINT [ "nginx", "-g", "daemon off;" ]

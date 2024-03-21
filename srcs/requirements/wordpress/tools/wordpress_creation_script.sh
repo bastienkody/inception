@@ -2,7 +2,7 @@
 
 cd /var/www/html/wordpress
 
-# 	for mariadb to be ready
+# 	to be super sure mariadb is ready
 sleep 2
 
 #	only if wp not configured
@@ -34,7 +34,7 @@ if [ ! -f "/var/www/html/wordpress/wp-config.php" ]; then
 
 fi
 
-#	on vide le cache (dans tous les cas, ca fait pas de mal i guess?)
+#	on vide le cache (dans tous les cas)
 wp cache flush --allow-root
 
 #	create a reboot persistent repo to save sockets files needed for phpfpm to communicate
