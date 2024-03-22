@@ -17,7 +17,7 @@ RUN 	openssl req -x509 -noenc -days 300 \
 RUN 	mkdir -p /var/run/nginx
 COPY 	conf/nginx.conf /etc/nginx/nginx.conf
 
-#	rigths (if not working multiple needed)
+#	rigths
 RUN 	mkdir -p /var/www/html; \
 		chmod 755 /var/www/html; \
 		adduser -S www-data -G www-data; \
