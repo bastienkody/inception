@@ -16,7 +16,10 @@ clean:
 clear:
 	sudo rm -rf ${REPO_DB} ${REPO_WP}
 	docker system prune -af
+	docker volume rm srcs_mariadb
+	docker volume rm srcs_wordpress
 	docker volume prune -af
+	docker network prune -f
 
 fclean:		clean clear
 
